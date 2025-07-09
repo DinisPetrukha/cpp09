@@ -55,11 +55,15 @@ float returnBtcResult(std::string &date, std::string &value,
 					std::map<std::string, float> &btc_data)
 {
 	std::map<std::string, float>::iterator it = btc_data.upper_bound(date);
+	std::cout << it->second << std::endl;
 	float float_value = atof(value.c_str());
 
 	if (it == btc_data.begin())
 		return it->second * float_value;
 
+	if (it == btc_data.end()) {
+		return btc_data.rbegin()->second * float_value;
+	}
 	--it;
 	return it->second * float_value;
 }
