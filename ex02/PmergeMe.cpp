@@ -1,34 +1,25 @@
 #include "PmergeMe.hpp"
+#include <cmath>
+#include <deque>
 
-PmergeMe::PmergeMe() : _vector() {};
+int PmergeMe::nbr_of_comps = 0;
 
-PmergeMe::PmergeMe(const PmergeMe& other) {
-	*this = other;
+PmergeMe::PmergeMe() {}
+PmergeMe::PmergeMe(const PmergeMe& pm) { (void)pm; }
+PmergeMe& PmergeMe::operator=(const PmergeMe& pm)
+{
+    (void)pm;
+    return *this;
 }
-
-PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
-	if (this != &other)
-		this->_vector = other._vector;
-	return *this;
-}
-
 PmergeMe::~PmergeMe() {}
 
-PmergeMe::PmergeMe(char *argv[]) : _vector(argv_to_vector(argv)) {};
+/* Gives an index of the nth Jacobsthal number, starting from 1.
+ * round((pow(2, n) + pow(-1, n - 1)) / 3) means that it starts from 0.*/
+long _jacobsthal_number(long n) { return round((pow(2, n + 1) + pow(-1, n)) / 3); }
 
-std::vector<int> PmergeMe::argv_to_vector(char *argv[]) {
-	std::vector<int> vec;
-	for (int i = 1; argv[i]; ++i) {
-		vec.push_back(std::atoi(argv[i]));
-	}
-	return vec;
-}
+void PmergeMe::sort_vec(std::vector<int>& vec) { _merge_insertion_sort<std::vector<int> >(vec, 1); }
 
-void PmergeMe::print_vector() const{
-	for (size_t i = 0; i < _vector.size(); ++i) {
-		std::cout << _vector[i];
-		if (i < _vector.size() - 1)
-			std::cout << " ";
-	}
-	std::cout << std::endl;
+void PmergeMe::sort_deque(std::deque<int>& deque)
+{
+    _merge_insertion_sort<std::deque<int> >(deque, 1);
 }
